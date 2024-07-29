@@ -1,5 +1,6 @@
 package com.project.instagramclone.service;
 
+import com.project.instagramclone.dto.LoginDto;
 import com.project.instagramclone.dto.UserDto;
 import com.project.instagramclone.entity.Sns;
 import com.project.instagramclone.entity.User;
@@ -55,5 +56,9 @@ public class UserService {
         userDetailRepository.save(userDetail);
 
         return UserDto.from(user, userDetail);
+    }
+
+    public UserDto login(LoginDto loginDto) {
+        return null;
     }
 }

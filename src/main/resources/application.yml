@@ -30,6 +30,13 @@ spring:
     ansi:
       enabled: always
 
+jwt:
+  header: Authorization
+  #HS512
+  #echo 'instagram-clone-project-spring-boot-jwt-secret-instagram-clone-project-spring-boot-jwt-secret'|base64
+  secret: aW5zdGFncmFtLWNsb25lLXByb2plY3Qtc3ByaW5nLWJvb3Qtand0LXNlY3JldC1pbnN0YWdyYW0tY2xvbmUtcHJvamVjdC1zcHJpbmctYm9vdC1qd3Qtc2VjcmV0
+  token-validity-in-seconds: 86400
+
 logging:
   level:
     com.project: DEBUG

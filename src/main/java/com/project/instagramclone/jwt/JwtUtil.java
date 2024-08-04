@@ -24,21 +24,36 @@ public class JwtUtil {
         key = Keys.hmacShaKeyFor(byteSecretKey);
     }
 
-    public String getUid(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("uid", String.class);
+    public String getUsername(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("username", String.class);
     }
 
 //    public String getRole(String token) {
 //        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().get("role", String.class);
 //    }
 
+//    public Boolean isExpired(String token) {
+//        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date(System.currentTimeMillis()));
+//    }
+
     public Boolean isExpired(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration().before(new Date());
+        Date now = new Date(System.currentTimeMillis());
+        Date expiration = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getExpiration();
+
+        System.out.println("현재 시간: " + now);
+        System.out.println("JWT 만료 시간: " + expiration);
+
+        return expiration.before(now);
     }
 
-    public String createJwt(String uid, /*String role,*/ Long expiredMs) {
+    public String createJwt(String username, /*String role,*/ Long expiredMs) {
         Claims claims = Jwts.claims();
-        claims.put("uid", uid);
+        claims.put("username", username);
         // claims.put("role", role);
 
         return Jwts.builder()

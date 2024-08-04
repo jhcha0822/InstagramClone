@@ -1,7 +1,7 @@
 package com.project.instagramclone.dto;
 
-import com.project.instagramclone.entity.User;
-import com.project.instagramclone.entity.UserDetail;
+import com.project.instagramclone.entity.Member;
+import com.project.instagramclone.entity.MemberDetail;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,15 +11,15 @@ import java.util.Optional;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final Optional<User> user;
-    private final Optional<UserDetail> userDetail;
+    private final Optional<Member> member;
+    private final Optional<MemberDetail> memberDetail;
 
     public CustomUserDetails(
-            Optional<com.project.instagramclone.entity.User> user,
-            Optional<com.project.instagramclone.entity.UserDetail> userDetail
+            Optional<Member> member,
+            Optional<MemberDetail> memberDetail
     ) {
-        this.user = user;
-        this.userDetail = userDetail;
+        this.member = member;
+        this.memberDetail = memberDetail;
     }
 
     @Override
@@ -36,13 +36,13 @@ public class CustomUserDetails implements UserDetails {
     }
 
     @Override
-    public String getPassword() {
-        return userDetail.get().getPassword();
+    public String getUsername() {
+        return member.get().getUsername();
     }
 
     @Override
-    public String getUsername() {
-        return user.get().getUid();
+    public String getPassword() {
+        return memberDetail.get().getPassword();
     }
 
     @Override

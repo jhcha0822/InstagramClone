@@ -1,10 +1,10 @@
 package com.project.instagramclone.service;
 
 import com.project.instagramclone.dto.CustomUserDetails;
-import com.project.instagramclone.entity.User;
-import com.project.instagramclone.entity.UserDetail;
-import com.project.instagramclone.repository.UserDetailRepository;
-import com.project.instagramclone.repository.UserRepository;
+import com.project.instagramclone.entity.Member;
+import com.project.instagramclone.entity.MemberDetail;
+import com.project.instagramclone.repository.MemberDetailRepository;
+import com.project.instagramclone.repository.MemberRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,22 +15,22 @@ import java.util.Optional;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
-    private final UserDetailRepository userDetailRepository;
+    private final MemberRepository memberRepository;
+    private final MemberDetailRepository memberDetailRepository;
 
     public CustomUserDetailsService(
-            UserRepository userRepository,
-            UserDetailRepository userDetailRepository
+            MemberRepository memberRepository,
+            MemberDetailRepository memberDetailRepository
     ) {
-        this.userRepository = userRepository;
-        this.userDetailRepository = userDetailRepository;
+        this.memberRepository = memberRepository;
+        this.memberDetailRepository = memberDetailRepository;
     }
 
     @Override
-    public UserDetails loadUserByUsername(String uid) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<User> user = userRepository.findByUid(uid);
-        Optional<UserDetail> userDetail = userDetailRepository.findById(user.get().getUserId());
+        Optional<Member> user = memberRepository.findByUsername(username);
+        Optional<MemberDetail> userDetail = memberDetailRepository.findById(user.get().getMemberId());
         if(user.isPresent()) {
             return new CustomUserDetails(user, userDetail);
         }

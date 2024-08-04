@@ -3,23 +3,21 @@ package com.project.instagramclone.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
-
 @Entity
-@Table(name = "users")
+@Table(name = "member")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Member {
 
     @Id
-    @Column(name = "userId")
+    @Column(name = "memberId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long userId;
+    private Long memberId;
 
-    @Column(name = "uid")
-    private String uid;
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "nickname", length = 20, unique = true)
     private String nickname;

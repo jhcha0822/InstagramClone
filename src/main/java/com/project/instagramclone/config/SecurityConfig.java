@@ -1,5 +1,6 @@
 package com.project.instagramclone.config;
 
+import com.project.instagramclone.jwt.JwtFilter;
 import com.project.instagramclone.jwt.JwtUtil;
 import com.project.instagramclone.jwt.LoginFilter;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -64,14 +65,16 @@ public class SecurityConfig {
 
                 // CORS Filter 등록
                 .addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
+                // JwtFilter 등록
+                .addFilterBefore(new JwtFilter(jwtUtil), LoginFilter.class)
                 // 커스텀한 로그인 필터를 UsernamePasswordAuthenticationFilter 자리에 등록
                 .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class)
 
                 // HttpServletRequest를 사용하는 요청에 대한 접근제한 설정
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/api/signup", "/api/login").permitAll()           // 로그인과 토큰 요청 시 토큰이 없기에 허용
-                        .requestMatchers(PathRequest.toH2Console()).permitAll() // H2콘솔 허용
-                        .anyRequest().authenticated()                           // 나머지 요청에 대해서 인증 필요
+                        .requestMatchers(PathRequest.toH2Console()).permitAll()                 // H2콘솔 허용
+                        .anyRequest().authenticated()                                           // 나머지 요청에 대해서 인증 필요
                 )
 
                 // 세션을 사용하지 않기 때문에 STATELESS로 설정

@@ -8,9 +8,9 @@ spring:
           google:
             client-name: google
             # 서비스에서 발급 받은 아이디
-            client-id: 134067196206-59f6h9lkllqt5u8l7a3bt7qphd9bnicv.apps.googleusercontent.com
+            client-id:
             # 서비스에서 발급 받은 비밀번호
-            client-secret: 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
+            client-secret:
             # 서비스에 등록한 로그인 성공 시 redirect uri
             redirect-uri: http://localhost:8080/login/oauth2/code/google
             authorization-grant-type: authorization_code

@@ -13,6 +13,7 @@ const NavBar = () => {
             {isLoggedIn && <Link to="/post">Post</Link>}
             {isLoggedIn && <Link to="/edit-account">Edit Account</Link>}
             {isLoggedIn && <Link to="/change-password">Change Password</Link>}
+            {isLoggedIn && <Link to="/my-posts">내 게시글 보기</Link>}
         </nav>
     );
 }

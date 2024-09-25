@@ -45,4 +45,12 @@ public class PostController {
         List<PostDTO> posts = postsService.getPosts(token);
         return ResponseEntity.ok(posts);
     }
+
+    // 내가 작성한 게시글 가져오기
+    @GetMapping("/users/me/posts")
+    public ResponseEntity<List<PostDTO>> getUserPosts(@RequestHeader("Authorization") String token) {
+        List<PostDTO> posts = postsService.getMyPosts(token);
+        return ResponseEntity.ok(posts); // 200 OK, 게시글 리스트 반환
+    }
+
 }

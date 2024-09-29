@@ -2,15 +2,12 @@ package com.project.instagramclone.service.follows;
 
 import com.project.instagramclone.dto.follows.FollowDto;
 import com.project.instagramclone.entity.follows.FollowsEntity;
-import com.project.instagramclone.entity.form.FormUserEntity;
 import com.project.instagramclone.entity.member.MemberEntity;
-import com.project.instagramclone.entity.oauth2.OAuth2UserEntity;
 import com.project.instagramclone.repository.follows.FollowsRepository;
-import com.project.instagramclone.repository.form.FormUserRepository;
 import com.project.instagramclone.repository.member.MemberRepository;
-import com.project.instagramclone.repository.oauth2.OAuth2UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,9 +20,6 @@ public class FollowService {
 
     private final FollowsRepository followsRepository;
     private final MemberRepository memberRepository;
-
-    private final FormUserRepository formUserRepository;
-    private final OAuth2UserRepository oAuth2UserRepository;
 
     // 팔로우 기능
     @Transactional
@@ -128,47 +122,22 @@ public class FollowService {
 
     // username을 통해 memberId를 조회하는 메서드
     private Long getMemberIdByUsername(String username) {
-        return formUserRepository.findByUsername(username)
-                .map(FormUserEntity::getMemberEntity)
-                .map(MemberEntity::getMemberId)
-                .orElseGet(() ->
-                        oAuth2UserRepository.findByUsername(username)
-                        .map(OAuth2UserEntity::getMemberEntity)
-                        .map(MemberEntity::getMemberId)
-                        .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."))
-                );
+        return memberRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."))
+                .getMemberId();
     }
 
     // nickname을 통해 username을 가져오는 메서드
     public String getUsernameByNickname(String nickname) {
-        // FormUserEntity에서 nickname 검색
-        Optional<FormUserEntity> formUser = formUserRepository.findByNickname(nickname);
-        if(formUser.isPresent()) {
-            return formUser.get().getUsername();
-        }
-
-        // OAuth2UserEntity에서 nickname 검색
-        Optional<OAuth2UserEntity> oauth2User = oAuth2UserRepository.findByNickname(nickname);
-        if(oauth2User.isPresent()) {
-            return  oauth2User.get().getUsername();
-        }
-
-        // 닉네임을 찾을 수 없는 경우
-        throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
+        return memberRepository.findByNickname(nickname).get().getUsername();
+//        // 닉네임을 찾을 수 없는 경우
+//        throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
     }
 
     private String getNicknameByMemberId(Long memberId) {
-        Optional<FormUserEntity> formUser = formUserRepository.findByMemberEntity_MemberId(memberId);
-        if (formUser.isPresent()) {
-            return formUser.get().getNickname();
-        }
-
-        Optional<OAuth2UserEntity> oauth2User = oAuth2UserRepository.findByMemberEntity_MemberId(memberId);
-        if (oauth2User.isPresent()) {
-            return oauth2User.get().getNickname();
-        }
-
-        throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
+        return memberRepository.findById(memberId)
+                .get().getNickname();
+//        throw new IllegalArgumentException("사용자를 찾을 수 없습니다.");
     }
 
 }

@@ -6,8 +6,7 @@ package com.project.instagramclone.handler;
 // refresh token -> cookie
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nimbusds.jwt.JWT;
-import com.project.instagramclone.dto.form.CustomUserDetails;
+import com.project.instagramclone.dto.member.CustomUserDetails;
 import com.project.instagramclone.jwt.JWTUtil;
 import com.project.instagramclone.service.token.RefreshTokenService;
 import com.project.instagramclone.util.CookieUtil;

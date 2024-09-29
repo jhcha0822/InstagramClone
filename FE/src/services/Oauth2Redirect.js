@@ -17,27 +17,22 @@ const OAuth2Redirect = () => {
                 // local storage access token set
                 window.localStorage.setItem("access", response.headers.get("access"));
                 // local storage name set
-                const name = queryParams.get('name');
+                const name = queryParams.get('name') || "TempNickname";
                 window.localStorage.setItem("name", name);
+                window.localStorage.setItem("nickname", name);
 
                 setIsLoggedIn(true);
                 setLoginUser(name);
 
-                // refresh token 여부 확인
-                const hasRefreshToken = queryParams.get('hasRefreshToken') === "true";
-
-                if (!hasRefreshToken) {
-                    // refresh token이 없으면 닉네임 설정 페이지로 리다이렉트
+                // 닉네임이 "TempNickname"이면 닉네임 설정 페이지로 리다이렉트
+                if (name === "TempNickname") {
                     navigate('/set-nickname');
                 } else {
-                    // refresh token이 있으면 홈으로 리다이렉트
                     navigate('/', { replace: true });
                 }
-
             } else {
                 alert('접근할 수 없는 페이지입니다.');
             }
-            // navigate('/', { replace: true });
         } catch (error) {
             console.log("error: ", error);
         }

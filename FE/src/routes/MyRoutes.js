@@ -26,7 +26,7 @@ const MyRoutes = () => {
       {isLoggedIn && <Route path="/post" element={<Post />} />}
       {isLoggedIn && <Route path="/edit-account" element={<EditAccount />} />}
       {isLoggedIn && <Route path="/change-password" element={<ChangePassword />} />}
-        {isLoggedIn && <Route path="/my-posts" element={<MyPosts />} />}
+      {isLoggedIn && <Route path="/my-posts" element={<MyPosts />} />}
       <Route path="/admin" element={<Admin />} />
       <Route path="/oauth2-jwt-header" element={<OAuth2Redirect />} />
       <Route path="/set-nickname" element={<SetNickname />} />

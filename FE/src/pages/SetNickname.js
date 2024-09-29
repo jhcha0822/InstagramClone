@@ -1,28 +1,52 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLogin } from "../contexts/AuthContext";
 
 const SetNickname = () => {
     const [nickname, setNickname] = useState('');
     const navigate = useNavigate();
+    const { setIsLoggedIn, setLoginUser } = useLogin();
 
     const handleSetNickname = async (e) => {
         e.preventDefault();
         try {
             const token = window.localStorage.getItem("access");
+            const currentNickname = window.localStorage.getItem("name"); // 현재 닉네임 가져오기
             const response = await fetch("http://localhost:8080/api/v1/nickname/set", {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ nickname })
+                body: JSON.stringify({ currentNickname, newNickname: nickname })
             });
             if (response.ok) {
                 window.localStorage.setItem("nickname", nickname); // 로컬스토리지에 닉네임 저장
                 window.localStorage.setItem("name", nickname);     // 로컬스토리지의 name(실명)을 nickname으로 덮어쓰기
-                alert("닉네임 설정 완료");
-                navigate("/");  // 닉네임 설정 후 Home으로 리다이렉트
+                alert("닉네임이 변경되었습니다. 다시 로그인해주세요.");
+
+                // 로그아웃 처리 (Logout.js에서 사용된 로직)
+                const logoutResponse = await fetch("http://localhost:8080/logout", {
+                    method: "POST",
+                    credentials: "include",
+                });
+
+                if (logoutResponse.ok) {
+                    // 로컬 스토리지에서 토큰 및 사용자 정보 삭제
+                    window.localStorage.removeItem("access");
+                    window.localStorage.removeItem("name");
+                    window.localStorage.removeItem("nickname");
+                    window.localStorage.removeItem("username");
+
+                    setIsLoggedIn(false);
+                    setLoginUser(null);
+                    navigate("/login", { replace: true }); // 로그인 페이지로 리다이렉트
+                } else {
+                    alert("로그아웃 실패");
+                }
             } else {
+                const errorMessage = await response.text();
+                console.log("Error response:", response.status, errorMessage);
                 alert("닉네임 설정 실패");
             }
         } catch (error) {

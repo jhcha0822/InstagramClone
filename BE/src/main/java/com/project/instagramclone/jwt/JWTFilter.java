@@ -1,10 +1,6 @@
 package com.project.instagramclone.jwt;
 
-import com.project.instagramclone.dto.form.CustomUserDetails;
-import com.project.instagramclone.dto.oauth2.CustomOAuth2User;
-import com.project.instagramclone.entity.form.FormUserEntity;
-import com.project.instagramclone.service.form.CustomUserDetailsService;
-import com.project.instagramclone.service.oauth2.CustomOAuth2UserService;
+import com.project.instagramclone.service.member.CustomUserDetailsService;
 import com.project.instagramclone.service.oauth2.OAuth2UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
@@ -16,12 +12,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Optional;
 
 // 이미 access token이 존재할 경우,
 // 내부에서 사용할 authentication 정보를 set
@@ -82,26 +76,27 @@ public class JWTFilter extends OncePerRequestFilter {
 
         // 정상적인 토큰인 경우 사용자 정보 추출
         logger.debug("정상적인 access token 조회.");
-        String username = jwtUtil.getUsername(token);
+//        String username = jwtUtil.getUsername(token);
+        String nickname = jwtUtil.getNickname(token);
         String role = jwtUtil.getRole(token);
 
-        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//        if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+//            // DB에서 사용자 정보 조회
+//            UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+//            if (jwtUtil.validateToken(token, userDetails)) {
+//                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+//                        userDetails, null, userDetails.getAuthorities());
+//                SecurityContextHolder.getContext().setAuthentication(authToken);
+//            }
+//        }
+
+        if (nickname != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             // DB에서 사용자 정보 조회
-            if (username.startsWith("google ")) { // OAuth2 사용자
-                // OAuth2User 대신 CustomOAuth2User로 사용자 인증 정보 처리
-                CustomOAuth2User oAuth2User = oAuth2UserService.findByUsername(username);
-                if (jwtUtil.validateToken(token, oAuth2User)) {
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            oAuth2User, null, oAuth2User.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
-                }
-            } else {
-                UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-                if (jwtUtil.validateToken(token, userDetails)) {
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
-                }
+            UserDetails userDetails = customUserDetailsService.loadUserByNickname(nickname);
+            if (jwtUtil.validateToken(token, userDetails)) {
+                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+                SecurityContextHolder.getContext().setAuthentication(authToken);
             }
         }
 

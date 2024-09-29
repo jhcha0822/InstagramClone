@@ -1,4 +1,4 @@
-package com.project.instagramclone.dto.account;
+package com.project.instagramclone.dto.member;
 
 import lombok.*;
 

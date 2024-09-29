@@ -1,7 +1,7 @@
-package com.project.instagramclone.controller;
+package com.project.instagramclone.controller.member;
 
-import com.project.instagramclone.dto.form.JoinDto;
-import com.project.instagramclone.service.form.JoinService;
+import com.project.instagramclone.dto.member.JoinDto;
+import com.project.instagramclone.service.member.JoinService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;

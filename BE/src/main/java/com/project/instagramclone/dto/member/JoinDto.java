@@ -1,7 +1,7 @@
-package com.project.instagramclone.dto.form;
+package com.project.instagramclone.dto.member;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.project.instagramclone.entity.form.FormUserEntity;
+import com.project.instagramclone.entity.member.MemberEntity;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
@@ -32,15 +32,15 @@ public class JoinDto {
     @Size(min = 3, max = 50)
     private String email;
 
-    public static JoinDto from(FormUserEntity formUserEntity) {
+    public static JoinDto from(MemberEntity member) {
 
-        if(formUserEntity == null) return null;
+        if(member == null) return null;
 
         return JoinDto.builder()
-                .username(formUserEntity.getUsername())
-                .password(formUserEntity.getPassword())
-                .nickname(formUserEntity.getNickname())
-                .email(formUserEntity.getEmail())
+                .username(member.getUsername())
+                .password(member.getPassword())
+                .nickname(member.getNickname())
+                .email(member.getEmail())
                 // 회원가입 시 프로필 이미지 추가하지 않음
                 // 회원가입 시 회원 권한(role)으로 설정
                 .build();

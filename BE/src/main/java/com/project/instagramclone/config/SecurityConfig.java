@@ -6,7 +6,7 @@ import com.project.instagramclone.handler.CustomOAuth2SuccessHandler;
 import com.project.instagramclone.jwt.JWTFilter;
 import com.project.instagramclone.jwt.JWTUtil;
 import com.project.instagramclone.repository.token.RefreshRepository;
-import com.project.instagramclone.service.form.CustomUserDetailsService;
+import com.project.instagramclone.service.member.CustomUserDetailsService;
 import com.project.instagramclone.service.oauth2.CustomOAuth2UserService;
 import com.project.instagramclone.service.oauth2.OAuth2UserService;
 import com.project.instagramclone.service.token.RefreshTokenService;
@@ -32,10 +32,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.filter.CorsFilter;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collections;
 
 @EnableWebSecurity
@@ -117,7 +115,7 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration configuration = new CorsConfiguration();
-                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000/"));
+                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));

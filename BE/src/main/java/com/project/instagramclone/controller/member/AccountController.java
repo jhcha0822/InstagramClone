@@ -1,10 +1,10 @@
-package com.project.instagramclone.controller;
+package com.project.instagramclone.controller.member;
 
-import com.project.instagramclone.dto.account.AccountUpdateDto;
-import com.project.instagramclone.dto.account.PasswordChangeDto;
-import com.project.instagramclone.dto.form.CustomUserDetails;
+import com.project.instagramclone.dto.member.AccountUpdateDto;
+import com.project.instagramclone.dto.member.PasswordChangeDto;
+import com.project.instagramclone.dto.member.CustomUserDetails;
 import com.project.instagramclone.dto.oauth2.CustomOAuth2User;
-import com.project.instagramclone.service.account.AccountService;
+import com.project.instagramclone.service.member.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

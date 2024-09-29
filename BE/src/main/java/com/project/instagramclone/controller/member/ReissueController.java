@@ -1,4 +1,4 @@
-package com.project.instagramclone.controller;
+package com.project.instagramclone.controller.member;
 
 import com.project.instagramclone.service.token.ReissueService;
 import io.swagger.v3.oas.annotations.tags.Tag;

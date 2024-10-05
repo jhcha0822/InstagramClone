@@ -55,18 +55,6 @@ public class JWTUtil {
     }
 
     public boolean validateToken(String token, Object user) {
-//        final String username = getUsername(token);  // 토큰에서 username 추출
-//        if (user instanceof UserDetails) {
-//            return (username.equals(((UserDetails) user).getUsername()) && !isExpired(token)); // username 일치 여부 및 만료 여부 확인
-//        } else if (user instanceof OAuth2User) {
-//            Map<String, Object> attributes = ((OAuth2User) user).getAttributes();
-//            if (attributes == null || attributes.get("username") == null) {
-//                // OAuth2User의 attributes가 null인 경우 예외 처리
-//                return false;
-//            }
-//            return (username.equals(attributes.get("username")) && !isExpired(token));
-//        }
-//        return false;
         final String nickname = getNickname(token);  // 토큰에서 username 추출
         if (user instanceof UserDetails) {
             return (nickname.equals(((CustomUserDetails) user).getNickname()) && !isExpired(token)); // username 일치 여부 및 만료 여부 확인

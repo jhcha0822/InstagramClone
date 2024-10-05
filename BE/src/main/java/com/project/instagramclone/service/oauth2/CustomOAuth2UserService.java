@@ -57,8 +57,8 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             member.setOauth2Provider(provider);
             member.setActivated(true); // 필요한 경우 활성화 상태를 설정
             member.setRole("ROLE_USER"); // 기본 역할 설정
-            member.setUsername(sub); // username을 OAuth ID로 설정
-            member.setPassword(""); // 비밀번호를 빈 문자열로 설정
+            member.setUsername(null); // ID를 빈 문자열로 설정
+            member.setPassword(null); // 비밀번호를 빈 문자열로 설정
 
             try {
                 // 실제 데이터베이스 저장
@@ -73,6 +73,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         // 이미 존재하는 유저는 DTO로 변환하여 반환
         OAuth2UserDto oAuth2UserDto = OAuth2UserDto.builder()
                 .memberId(member.getMemberId())
+                .oauth2Id(member.getOauthId())
                 .nickname(member.getNickname())
                 .email(member.getEmail())
                 .role(member.getRole())

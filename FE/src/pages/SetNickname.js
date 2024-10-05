@@ -11,7 +11,7 @@ const SetNickname = () => {
         e.preventDefault();
         try {
             const token = window.localStorage.getItem("access");
-            const currentNickname = window.localStorage.getItem("name"); // 현재 닉네임 가져오기
+            const currentNickname = window.localStorage.getItem("nickname"); // 현재 닉네임 가져오기
             const response = await fetch("http://localhost:8080/api/v1/nickname/set", {
                 method: 'POST',
                 headers: {
@@ -22,7 +22,6 @@ const SetNickname = () => {
             });
             if (response.ok) {
                 window.localStorage.setItem("nickname", nickname); // 로컬스토리지에 닉네임 저장
-                window.localStorage.setItem("name", nickname);     // 로컬스토리지의 name(실명)을 nickname으로 덮어쓰기
                 alert("닉네임이 변경되었습니다. 다시 로그인해주세요.");
 
                 // 로그아웃 처리 (Logout.js에서 사용된 로직)
@@ -34,9 +33,7 @@ const SetNickname = () => {
                 if (logoutResponse.ok) {
                     // 로컬 스토리지에서 토큰 및 사용자 정보 삭제
                     window.localStorage.removeItem("access");
-                    window.localStorage.removeItem("name");
                     window.localStorage.removeItem("nickname");
-                    window.localStorage.removeItem("username");
 
                     setIsLoggedIn(false);
                     setLoginUser(null);

@@ -1,6 +1,8 @@
 package com.project.instagramclone.entity.member;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,29 +21,45 @@ public class MemberEntity {
     private long memberId;
 
     // 회원 이름
-    @Column(name = "nickname")
+    @NotNull
+    @Column(name = "nickname", unique = true , nullable = false)
     private String nickname;
 
     // 이메일
-    @Column(name = "email")
+    @NotNull
+    @Column(name = "email", nullable = false)
     private String email;
 
     // 활성화 여부
-    @Column(name = "activated")
+    @NotNull
+    @Column(name = "activated", nullable = false)
     private boolean activated;
 
     // 권한
-    @Column(name = "role")
+    @NotNull
+    @Column(name = "role", nullable = false)
     private String role;
+
+    // 프로필 이미지
+    @Nullable
+    @Column(name = "profilePic", nullable = true)
+    private String profilePic;
+
+    // 프로필 소개글
+    @Nullable
+    @Column(name = "bio", nullable = true)
+    private String bio;
 
     /*------ Form 전용 필드------*/
 
     // 아이디
-    @Column(name = "username")
+    @Nullable
+    @Column(name = "username", unique = true, nullable = true)
     private String username;
 
     // 비밀번호
-    @Column(name = "password")
+    @Nullable
+    @Column(name = "password", unique = true, nullable = true)
     private String password;
 
     /*--------------------------*/
@@ -49,11 +67,13 @@ public class MemberEntity {
     /*----- OAuth2 전용 필드 -----*/
 
     // OAuth2 제공자
-    @Column(name = "oauth2Provider")
+    @Nullable
+    @Column(name = "oauth2Provider", nullable = true)
     private String oauth2Provider;
 
     // OAuth2 고유 ID (sub 값 등)
-    @Column(name = "oauthId")
+    @Nullable
+    @Column(name = "oauthId", unique = true, nullable = true)
     private String oauthId;
 
     /*--------------------------*/
@@ -61,6 +81,7 @@ public class MemberEntity {
     @Builder
     public MemberEntity(String username, String password, String nickname,
                         String email, boolean activated, String role,
+                        String profilePic, String bio,
                         String oauth2Provider, String oauthId ) {
         this.username = username;
         this.password = password;
@@ -68,6 +89,8 @@ public class MemberEntity {
         this.email = email;
         this.activated = activated;
         this.role = role;
+        this.profilePic = profilePic;
+        this.bio = bio;
         this.oauth2Provider = oauth2Provider;
         this.oauthId = oauthId;
     }

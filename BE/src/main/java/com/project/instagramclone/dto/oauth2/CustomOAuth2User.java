@@ -30,10 +30,6 @@ public class CustomOAuth2User implements OAuth2User {
         return oAuth2UserDto.getNickname();  // 닉네임 반환
     }
 
-    public String getUsername() {
-        return oAuth2UserDto.getUsername();
-    }
-
     public String getNickname() {
         return oAuth2UserDto.getNickname();
     }
@@ -46,7 +42,7 @@ public class CustomOAuth2User implements OAuth2User {
         return oAuth2UserDto.getMemberId();
     }
 
-    public Long getOauth2Id() {
+    public String getOauth2Id() {
         return oAuth2UserDto.getOauth2Id();
     }
 

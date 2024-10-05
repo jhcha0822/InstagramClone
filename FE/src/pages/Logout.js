@@ -16,9 +16,7 @@ const Logout = () => {
                 alert("logout successful");
                 // access token 삭제 (로컬 스토리지)
                 window.localStorage.removeItem("access");
-                window.localStorage.removeItem("name");
                 window.localStorage.removeItem("nickname");
-                window.localStorage.removeItem("username");
 
                 setIsLoggedIn(false);
                 setLoginUser(null);

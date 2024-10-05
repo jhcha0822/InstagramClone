@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const EditAccount = () => {
-    const [email, setEmail] = useState('');
     const [nickname, setNickname] = useState('');
     const [profilePic, setProfilePic] = useState('');
     const [bio, setBio] = useState('');
@@ -20,7 +19,6 @@ const EditAccount = () => {
         })
             .then(response => response.json())
             .then(data => {
-                setEmail(data.email);
                 setNickname(data.nickname);
                 setProfilePic(data.profilePic);
                 setBio(data.bio);
@@ -38,7 +36,7 @@ const EditAccount = () => {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ email, nickname, profilePic, bio })
+                body: JSON.stringify({ nickname, profilePic, bio })
             });
             if (response.ok) {
                 alert("계정 정보가 성공적으로 업데이트되었습니다.");
@@ -51,19 +49,64 @@ const EditAccount = () => {
         }
     }
 
+    // 인라인 스타일링 객체
+    const styles = {
+        container: {
+            maxWidth: '400px',
+            margin: '0 auto',
+            padding: '20px',
+            border: '1px solid #ccc',
+            borderRadius: '8px',
+            backgroundColor: '#f9f9f9',
+            boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        },
+        formGroup: {
+            marginBottom: '15px',
+        },
+        label: {
+            marginBottom: '5px',
+            fontWeight: 'bold',
+            display: 'block',
+        },
+        input: {
+            width: '100%',
+            padding: '10px',
+            border: '1px solid #ccc',
+            borderRadius: '4px',
+            boxSizing: 'border-box',
+            fontSize: '14px',
+        },
+        button: {
+            padding: '10px',
+            backgroundColor: '#4a90e2',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            fontSize: '16px',
+        },
+        buttonHover: {
+            backgroundColor: '#357ab8',
+        },
+    };
+
     return (
-        <div className="edit-account">
+        <div className="edit-account" style={styles.container}>
             <h1>내 계정 정보 수정</h1>
-            <form onSubmit={handleUpdateAccount}>
-                <p><span className='label'>이메일</span>
-                    <input className='input-class' type="email" value={email} disabled /></p>
-                <p><span className='label'>닉네임</span>
-                    <input className='input-class' type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} /></p>
-                <p><span className='label'>프로필 사진 URL</span>
-                    <input className='input-class' type="text" value={profilePic} onChange={(e) => setProfilePic(e.target.value)} /></p>
-                <p><span className='label'>소개글</span>
-                    <textarea className='input-class' value={bio} onChange={(e) => setBio(e.target.value)} /></p>
-                <input type="submit" value="Update Account" className="form-btn" />
+            <form onSubmit={handleUpdateAccount} className="edit-form" style={styles.form}>
+                <div className="form-group" style={styles.formGroup}>
+                    <label style={styles.label}>닉네임</label>
+                    <input style={styles.input} className='input-class' type="text" value={nickname} onChange={(e) => setNickname(e.target.value)} />
+                </div>
+                <div className="form-group" style={styles.formGroup}>
+                    <label style={styles.label}>프로필 사진 URL</label>
+                    <input style={styles.input} className='input-class' type="text" value={profilePic} onChange={(e) => setProfilePic(e.target.value)} />
+                </div>
+                <div className="form-group" style={styles.formGroup}>
+                    <label style={styles.label}>소개글</label>
+                    <textarea style={styles.input} className='input-class' value={bio} onChange={(e) => setBio(e.target.value)} />
+                </div>
+                <input type="submit" value="Update Account" style={styles.button} className="form-btn" />
             </form>
         </div>
     );

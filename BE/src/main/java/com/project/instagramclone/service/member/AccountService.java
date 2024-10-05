@@ -19,8 +19,8 @@ public class AccountService {
     public void updateAccount(Long memberId, AccountUpdateDto accountUpdateDto) {
         MemberEntity member = memberRepository.findById(memberId).orElseThrow();
         member.setNickname(accountUpdateDto.getNickname());
-//        member.setProfilePic(accountUpdateDto.getProfilePic());]
-//        member.setBio(accountUpdateDto.getBio());
+        member.setProfilePic(accountUpdateDto.getProfilePic());
+        member.setBio(accountUpdateDto.getBio());
         memberRepository.save(member);
     }
 

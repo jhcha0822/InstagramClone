@@ -31,7 +31,7 @@ public class CustomFormSuccessHandler extends SimpleUrlAuthenticationSuccessHand
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         // JWT 생성을 위한 정보 가져오기
-        String username = ((CustomUserDetails) authentication.getPrincipal()).getUsername();
+        String username = ((CustomUserDetails) authentication.getPrincipal()).getUsername(); // ID
         String nickname = ((CustomUserDetails) authentication.getPrincipal()).getNickname();
         String role = authentication.getAuthorities().iterator().next().getAuthority();
 
@@ -50,10 +50,11 @@ public class CustomFormSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         // refresh token을 DB에 저장
         refreshTokenService.saveRefreshToken(username, expireS, refresh);
 
-        // JOSN을 Objectmapper을 통해 직렬화하여 전달
+        // JSON을 Objectmapper을 통해 직렬화하여 전달
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("username", username);
         responseData.put("nickname", nickname);
+        responseData.put("role", role);
 
         new ObjectMapper().writeValue(response.getWriter(), responseData);
     }

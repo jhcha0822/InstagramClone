@@ -1,5 +1,6 @@
 package com.project.instagramclone.handler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.instagramclone.dto.oauth2.CustomOAuth2User;
 import com.project.instagramclone.dto.oauth2.OAuth2UserDto;
 import com.project.instagramclone.jwt.JWTUtil;
@@ -31,20 +32,13 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        
-        System.out.println("onAuthenticationSuccess 도달");
-        
+
         // create JWT
-        // Cast to CustomOAuth2User instead of CustomUserDetails
         CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-        OAuth2UserDto userDto = customOAuth2User.getUserDto();
 
-        String username = userDto.getNickname(); // Use the nickname for display purposes
-        String role = userDto.getRole();
-        String nickname = userDto.getNickname();
-
-        boolean hasRefreshToken = refreshTokenService.existsByUsername(username); // 사용자 존재 여부 확인
-        System.out.println("Has refresh token:" + hasRefreshToken);
+        String username = customOAuth2User.getOauth2Id();
+        String nickname = customOAuth2User.getName();
+        String role = authentication.getAuthorities().iterator().next().getAuthority();
 
         Integer expireS = 24 * 60 * 60;
         String access = jwtUtil.createJwt("access", username, nickname, role, 60 * 10 * 1000L);
@@ -59,12 +53,9 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         // redirect query param 인코딩 후 전달
         // 이후에 JWT 를 읽어서 데이터를 가져올 수도 있지만, JWT 파싱 비용이 많이 들기 때문에
         // 처음 JWT 발급할 때 이름을 함께 넘긴 후, 로컬 스토리지에 저장한다.
-        String encodedName = URLEncoder.encode(username, "UTF-8");
+        String encodedName = URLEncoder.encode(nickname, "UTF-8");
 
-        // refresh token 여부를 쿼리 파라미터로 전달
-        String refreshTokenStatus = hasRefreshToken ? "true" : "false";
-
-        response.sendRedirect("http://localhost:3000/oauth2-jwt-header?name=" + encodedName + "&hasRefreshToken=" + refreshTokenStatus);
+        response.sendRedirect("http://localhost:3000/oauth2-jwt-header?nickname=" + encodedName);
     }
 
 }

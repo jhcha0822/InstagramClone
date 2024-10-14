@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-@Tag(name="join service", description="join service API")
+@Tag(name="Join service", description="join service API")
 public class JoinController {
 
     private final JoinService joinService;

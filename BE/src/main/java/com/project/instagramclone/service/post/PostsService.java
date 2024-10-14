@@ -135,6 +135,7 @@ public class PostsService {
                 .content(post.getContent())
                 .mediaUrls(mediaUrls) // 이미지 파일 URL 리스트 추가
                 .writer(post.getNickname()) // 작성자 추가
+                .regdate(post.getRegdate()) // 등록일
                 .build();
     }
 

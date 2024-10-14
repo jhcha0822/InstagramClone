@@ -1,6 +1,7 @@
 package com.project.instagramclone.repository.post;
 
 import com.project.instagramclone.entity.posts.PostImage;
+import com.project.instagramclone.entity.posts.Posts;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 

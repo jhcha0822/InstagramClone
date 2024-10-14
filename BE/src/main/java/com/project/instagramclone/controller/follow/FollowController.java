@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
-@Tag(name="follow service", description="follow service API")
+@Tag(name="Follow service", description="follow service API")
 public class FollowController {
 
     private final FollowService followService;

@@ -11,6 +11,8 @@ import SetNickname from '../pages/SetNickname';
 import EditAccount from '../pages/EditAccount';
 import ChangePassword from '../pages/ChangePassword';
 import MyPosts from '../pages/MyPosts';
+import ProfilePage from '../pages/ProfilePage';
+import PostDetail from "../pages/PostDetail";
 import { useLogin } from '../contexts/AuthContext';
 
 const MyRoutes = () => {
@@ -27,9 +29,16 @@ const MyRoutes = () => {
       {isLoggedIn && <Route path="/edit-account" element={<EditAccount />} />}
       {isLoggedIn && <Route path="/change-password" element={<ChangePassword />} />}
       {isLoggedIn && <Route path="/my-posts" element={<MyPosts />} />}
+
       <Route path="/admin" element={<Admin />} />
       <Route path="/oauth2-jwt-header" element={<OAuth2Redirect />} />
       <Route path="/set-nickname" element={<SetNickname />} />
+
+      {/* 프로필 페이지 라우트 */}
+      <Route path="/profile/:nickname" element={<ProfilePage />} />
+
+      {/* 글 상세보기 페이지 라우트 */}
+      <Route path="/post/:postId" element={<PostDetail />} />
     </Routes>
   );
 }

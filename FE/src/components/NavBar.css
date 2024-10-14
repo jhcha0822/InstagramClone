@@ -1,0 +1,76 @@
+/* NavBar 전체 스타일 */
+.navbar {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    width: 100%;
+}
+
+/* NavBar 내부 컨테이너 설정 */
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 모든 요소를 수직 중앙에 맞춤 */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 링크들을 감싸는 컨테이너 */
+.navbar-links {
+    display: flex;
+    gap: 10px;
+    align-items: center; /* 링크들이 수직으로 중앙에 정렬되도록 */
+}
+
+/* 각각의 링크 스타일 */
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    background-color: #333;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-links a:hover {
+    background-color: #555;
+}
+
+/* 검색 폼 컨테이너 */
+.navbar-search-form {
+    display: flex;
+    align-items: center; /* 검색창과 버튼을 수평 중앙에 맞추기 */
+    background-color: #333;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0; /* margin 초기화 */
+    margin-left: 10px; /* 검색창과 다른 버튼 사이에 간격 추가 */
+}
+
+/* 검색창 스타일 */
+.navbar-search-input {
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    color: white;
+    background-color: black;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+
+/* 검색 버튼 스타일 */
+.navbar-search-button {
+    padding: 5px 15px;
+    font-size: 0.9rem;
+    color: white;
+    background-color: black;
+    border: 1px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-search-button:hover {
+    background-color: #555;
+}

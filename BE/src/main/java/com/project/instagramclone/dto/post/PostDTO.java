@@ -19,4 +19,5 @@ public class PostDTO {
     // 게시글 조회 시 사용
     private List<String> mediaUrls; // 저장된 이미지 URL 리스트
     private String writer; //작성자 - nickname
+    private Long regdate;
 }

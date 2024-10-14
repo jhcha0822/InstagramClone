@@ -5,29 +5,75 @@ import com.project.instagramclone.dto.member.PasswordChangeDto;
 import com.project.instagramclone.dto.member.CustomUserDetails;
 import com.project.instagramclone.dto.oauth2.CustomOAuth2User;
 import com.project.instagramclone.service.member.AccountService;
+import com.project.instagramclone.service.post.FileStorageService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/user")
+@Tag(name="Account service", description="account service API")
 public class AccountController {
 
     private final AccountService accountService;
 
+    // 사용자 정보 조회
+    @GetMapping("/me")
+    @Operation(summary = "내 정보 조회", description = "현재 로그인된 사용자의 정보를 반환합니다.")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json"))
+    public ResponseEntity<AccountUpdateDto> getCurrentUser(@AuthenticationPrincipal Object principal) {
+        Long memberId = extractMemberId(principal);
+        AccountUpdateDto userDto = accountService.getAccount(memberId);  // 서비스에서 유저 정보를 가져옴
+        return ResponseEntity.ok(userDto);
+    }
+
     // 사용자 정보 수정
     @PutMapping("/update")
-    public ResponseEntity<String> updateAccount(@RequestBody AccountUpdateDto accountUpdateDto, @AuthenticationPrincipal Object principal) {
+    @Operation(summary = "내 계정 정보 수정", description = "Authorization, DTO 필요") // 각 API에 대한 설명
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json")) //응답 코드에 대한 정보
+    @Parameters({
+            @Parameter(name="nickname", description="닉네임"),
+            @Parameter(name="profilePic", description="프로필 이미지 경로"),
+            @Parameter(name="bio", description="자기소개")
+    })
+    public ResponseEntity<?> updateAccount(@ModelAttribute AccountUpdateDto accountUpdateDto,
+                                           @RequestParam(value = "profilePicFile", required = false) MultipartFile profilePicFile,
+                                           @AuthenticationPrincipal Object principal) {
         Long memberId = extractMemberId(principal);
-        accountService.updateAccount(memberId, accountUpdateDto);
-        return ResponseEntity.ok("계정 정보가 성공적으로 업데이트되었습니다.");
+
+        // 파일 수신 여부 확인
+        if (profilePicFile != null) {
+            System.out.println("업로드된 파일 이름: " + profilePicFile.getOriginalFilename());
+        }
+
+        try {
+            accountService.updateAccount(memberId, accountUpdateDto, profilePicFile);
+            return ResponseEntity.ok("계정 정보가 성공적으로 업데이트되었습니다.");
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 업로드 중 오류가 발생했습니다.");
+        }
     }
 
     // 비밀번호 변경
     @PostMapping("/change-password")
+    @Operation(summary = "내 계정의 비밀번호 변경", description = "Authorization, DTO 필요")
+    @ApiResponse(responseCode = "200", description = "요청에 성공하였습니다.", content = @Content(mediaType = "application/json")) //응답 코드에 대한 정보
+    @Parameters({
+            @Parameter(name="currentPassword", description="현재 비밀번호"),
+            @Parameter(name="newPassword", description="새 비밀번호")
+    })
     public ResponseEntity<String> changePassword(@RequestBody PasswordChangeDto passwordChangeDto, @AuthenticationPrincipal Object principal) {
         Long memberId = extractMemberId(principal);
         boolean isChanged = accountService.changePassword(memberId, passwordChangeDto);

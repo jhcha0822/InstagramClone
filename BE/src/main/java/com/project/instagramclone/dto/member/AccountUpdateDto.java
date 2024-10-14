@@ -10,7 +10,6 @@ import lombok.*;
 public class AccountUpdateDto {
 
     private String nickname;
-    private String profilePic;
     private String bio;
 
 }

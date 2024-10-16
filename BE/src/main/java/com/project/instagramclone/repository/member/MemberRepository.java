@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.lang.reflect.Member;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,6 +19,8 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     MemberEntity findByOauthId(String oauthId);
     Optional<MemberEntity> findByUsername(String username);
     Optional<MemberEntity> findByNickname(String nickname);
+
+    List<MemberEntity> findByNicknameContainingIgnoreCase(String nickname);
 
     @Modifying
     @Query("UPDATE MemberEntity m SET m.nickname = :newNickname WHERE m.nickname = :currentNickname")

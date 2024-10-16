@@ -3,7 +3,9 @@ package com.project.instagramclone.controller.member;
 import com.project.instagramclone.dto.member.AccountUpdateDto;
 import com.project.instagramclone.dto.member.PasswordChangeDto;
 import com.project.instagramclone.dto.member.CustomUserDetails;
+import com.project.instagramclone.dto.member.SearchDto;
 import com.project.instagramclone.dto.oauth2.CustomOAuth2User;
+import com.project.instagramclone.entity.member.MemberEntity;
 import com.project.instagramclone.service.member.AccountService;
 import com.project.instagramclone.service.post.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -92,6 +95,12 @@ public class AccountController {
             return ((CustomOAuth2User) principal).getMemberId();
         }
         throw new IllegalArgumentException("알 수 없는 사용자 타입");
+    }
+
+    // nickname 기반 검색 엔드포인트
+    @GetMapping("/search")
+    public List<SearchDto> searchMembers(@RequestParam String query) {
+        return accountService.searchMembers(query);
     }
 
 }

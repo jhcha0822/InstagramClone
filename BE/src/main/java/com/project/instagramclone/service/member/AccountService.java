@@ -2,6 +2,7 @@ package com.project.instagramclone.service.member;
 
 import com.project.instagramclone.dto.member.AccountUpdateDto;
 import com.project.instagramclone.dto.member.PasswordChangeDto;
+import com.project.instagramclone.dto.member.SearchDto;
 import com.project.instagramclone.entity.member.MemberEntity;
 import com.project.instagramclone.repository.member.MemberRepository;
 import com.project.instagramclone.service.post.FileStorageService;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -57,6 +60,19 @@ public class AccountService {
             return true;
         }
         return false;
+    }
+
+    // 사용자 검색
+    public List<SearchDto> searchMembers(String query) {
+        List<MemberEntity> members = memberRepository.findByNicknameContainingIgnoreCase(query);
+
+        // MemberEntity를 MemberDto로 변환
+        return members.stream().map(member -> {
+            SearchDto dto = new SearchDto();
+            dto.setNickname(member.getNickname());
+            dto.setProfilePic(member.getProfilePic()); // 프로필 이미지 설정
+            return dto;
+        }).collect(Collectors.toList());
     }
 
 }

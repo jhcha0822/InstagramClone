@@ -141,6 +141,7 @@ public class SecurityConfig {
                                 "/api/v1/user/me",
                                 "/api/v1/user/update",
                                 "/api/v1/user/change-password",
+                                "/api/v1/user/search",
 
                                 "/api/v1/post/",
 

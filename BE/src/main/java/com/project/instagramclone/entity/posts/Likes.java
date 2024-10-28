@@ -14,5 +14,5 @@ public class Likes {
     @Id
     private String id;
     private String postId; // 게시글 ID
-    private String memberId; // 유저 ID
+    private String nickname; // 사용자 닉네임
 }

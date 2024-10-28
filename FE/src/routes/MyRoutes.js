@@ -13,7 +13,10 @@ import ChangePassword from '../pages/ChangePassword';
 import MyPosts from '../pages/MyPosts';
 import ProfilePage from '../pages/ProfilePage';
 import PostDetail from "../pages/PostDetail";
+import FavoritesPage from '../pages/FavoritesPage';
+
 import { useLogin } from '../contexts/AuthContext';
+
 
 const MyRoutes = () => {
   const { isLoggedIn } = useLogin();
@@ -39,6 +42,9 @@ const MyRoutes = () => {
 
       {/* 글 상세보기 페이지 라우트 */}
       <Route path="/post/:postId" element={<PostDetail />} />
+
+      {/* 즐겨찾기 페이지 라우트 */}
+      <Route path="/favorites" element={<FavoritesPage />} />
     </Routes>
   );
 }

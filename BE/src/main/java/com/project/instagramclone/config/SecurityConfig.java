@@ -6,7 +6,7 @@ import com.project.instagramclone.handler.CustomOAuth2SuccessHandler;
 import com.project.instagramclone.jwt.JWTFilter;
 import com.project.instagramclone.jwt.JWTUtil;
 import com.project.instagramclone.repository.token.RefreshRepository;
-import com.project.instagramclone.service.form.CustomUserDetailsService;
+import com.project.instagramclone.service.member.CustomUserDetailsService;
 import com.project.instagramclone.service.oauth2.CustomOAuth2UserService;
 import com.project.instagramclone.service.oauth2.OAuth2UserService;
 import com.project.instagramclone.service.token.RefreshTokenService;
@@ -143,6 +143,19 @@ public class SecurityConfig {
                                 "/api/v1/user/update",
                                 "/api/v1/user/change-password",
                                 "/ws/**",
+                                "/api/v1/user/me",
+                                "/api/v1/user/update",
+                                "/api/v1/user/change-password",
+                                "/api/v1/user/search",
+                                "/api/v1/user/resetPassword",
+                                "/api/v1/user/resetPasswordRequest",
+
+                                "/api/v1/post/",
+
+                                // 이메일 관련
+                                "/api/v1/sendEmail",
+                                "/api/v1/sendSecurityCode",
+                                "/api/v1/verifySecurityCode",
 
                                 "/error"
                         ).permitAll() // 허용
@@ -164,7 +177,7 @@ public class SecurityConfig {
                 .addFilterBefore(new JWTFilter(jwtUtil, customUserDetailsService, oAuth2UserService), UsernamePasswordAuthenticationFilter.class)
 
                 // custom logout filter 등록
-                .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshRepository), LogoutFilter.class)
+                .addFilterBefore(new CustomLogoutFilter(jwtUtil, refreshTokenService), LogoutFilter.class)
 
                 // 세션을 사용하지 않기 때문에 STATELESS로 설정
                 .sessionManagement(sessionManagement ->

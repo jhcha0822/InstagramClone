@@ -2,6 +2,7 @@ package com.project.instagramclone.handler;
 
 import com.project.instagramclone.jwt.JWTUtil;
 import com.project.instagramclone.repository.token.RefreshRepository;
+import com.project.instagramclone.service.token.RefreshTokenService;
 import com.project.instagramclone.util.CookieUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -22,7 +23,7 @@ import java.util.Arrays;
 public class CustomLogoutFilter extends GenericFilterBean {
 
     private final JWTUtil jwtUtil;
-    private final RefreshRepository refreshRepository;
+    private final RefreshTokenService refreshTokenService;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain) throws IOException, ServletException {
@@ -46,41 +47,16 @@ public class CustomLogoutFilter extends GenericFilterBean {
             return;
         }
 
-        // refresh token 검증
-        String refresh = null;
-        Cookie[] cookies = request.getCookies();
-
-        refresh = Arrays.stream(cookies).filter(cookie -> cookie.getName().equals("refresh"))
-                .findFirst().get().getValue();
-
-        System.out.println("cookie의 refresh token: " + refresh);
-
-        // refresh token이 null일 경우
-        if(refresh == null){
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String accessToken = authorizationHeader.substring(7); // Bearer 부분 제거
+            if(accessToken != null) {
+                String username = jwtUtil.getUsername(accessToken);
+                refreshTokenService.deleteRefreshToken(username); // Redis에서 refresh token 삭제
+                response.setStatus(HttpServletResponse.SC_OK);
+            } else {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
         }
-        String category = jwtUtil.getCategory(refresh);
-
-        // refresh token이 아닐 경우
-        if(!category.equals("refresh")){
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
-        Boolean isExist = refreshRepository.existsByRefresh(refresh);
-
-        // refresh token이 DB내에 존재하지 않을 경우
-        if(!isExist){
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            return;
-        }
-
-        // logout
-        refreshRepository.deleteByRefresh(refresh);
-
-        Cookie cookie = CookieUtil.createCookie("refresh", null, 0);
-        response.addCookie(cookie);
-        response.setStatus(HttpServletResponse.SC_OK);
     }
 }

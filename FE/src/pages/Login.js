@@ -35,9 +35,8 @@ const LoginForm = () => {
                 }
 
                 const data = await response.json(); // 응답 데이터에서 토큰 및 사용자 정보 추출
-                const { nickname, username } = data;
+                const { nickname } = data;
 
-                window.localStorage.setItem("username", username);
                 window.localStorage.setItem("nickname", nickname);
 
                 setIsLoggedIn(true);

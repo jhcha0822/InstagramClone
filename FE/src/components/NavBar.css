@@ -1,0 +1,136 @@
+/* NavBar 전체 스타일 */
+.navbar {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    width: 100%;
+    position: relative; /* 검색 바와 결과를 고정하기 위해 설정 */
+}
+
+/* NavBar 내부 컨테이너 설정 */
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 링크들을 감싸는 컨테이너 */
+.navbar-links {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* 각각의 링크 스타일 */
+.navbar-links a {
+    color: white;
+    text-decoration: none;
+    padding: 5px 10px;
+    background-color: #333;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-links a:hover {
+    background-color: #555;
+}
+
+/* 검색 폼 컨테이너 */
+.navbar-search {
+    position: relative;
+    width: 100%;
+}
+
+.navbar-search-form {
+    display: flex;
+    align-items: center;
+    background-color: #333;
+    padding: 5px;
+    border-radius: 5px;
+    margin: 0;
+    margin-left: 10px;
+    position: relative;
+    z-index: 10; /* 검색 결과보다 위에 위치 */
+}
+
+/* 검색창 스타일 */
+.navbar-search-input {
+    height: 30px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    color: white;
+    background-color: black;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+    width: 100%; /* 검색창 너비를 꽉 채우기 */
+}
+
+/* 검색 버튼 스타일 */
+.navbar-search-button {
+    padding: 5px 15px;
+    font-size: 0.9rem;
+    color: white;
+    background-color: black;
+    border: 1px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.navbar-search-button:hover {
+    background-color: #555;
+}
+
+/* 검색 결과 리스트 스타일 */
+.sidebar-search-results {
+    position: absolute; /* 검색 폼 아래에 고정 */
+    top: 100%; /* 검색 폼 아래에 위치 */
+    left: 0;
+    right: 0;
+    background-color: #fff;
+    color: black;
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    max-height: 300px; /* 목록 최대 높이 */
+    overflow-y: auto; /* 넘칠 경우 스크롤 */
+    z-index: 9; /* 검색 폼보다 아래에 나타나도록 설정 */
+}
+
+.list-group-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.list-group-item:hover {
+    background-color: #f0f0f0;
+}
+
+.search-title {
+    font-weight: bold;
+    margin-left: 10px;
+    color: #333;
+}
+
+.search-path {
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* 프로필 이미지 스타일 */
+.profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 10px;
+}

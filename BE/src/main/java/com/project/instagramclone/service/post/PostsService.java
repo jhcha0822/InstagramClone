@@ -135,6 +135,37 @@ public class PostsService {
                 .content(post.getContent())
                 .mediaUrls(mediaUrls) // 이미지 파일 URL 리스트 추가
                 .writer(post.getNickname()) // 작성자 추가
+                .regdate(post.getRegdate()) // 등록일
                 .build();
+    }
+
+    // 내가 작성한 게시물 조회
+    public List<PostDTO> getMyPosts(String token) {
+
+        String actualToken = token.replace("Bearer", "");
+        String nickname = jwtUtil.getNickname(actualToken);
+
+        // 추출된 사용자들의 게시글 조회
+        List<Posts> postList = postRepository.findPostsByNickname(nickname);
+
+        // 각 게시글에 연결된 이미지 파일을 조회하고 PostDTO에 변환하여 반환
+        List<PostDTO> postDTOList = postList.stream().map(post -> {
+            // 게시글에 연결된 이미지 조회
+            List<PostImage> postImages = postImageRepository.findByPostId(post.getId());
+
+            // 각 PostImage에서 mediaUrl 리스트들을 모두 합침
+            List<String> mediaUrls = postImages.stream()
+                    .flatMap(postImage -> postImage.getMediaUrl().stream())  // 각 PostImage에서 mediaUrl 리스트 추출 후 flatMap으로 병합
+                    .collect(Collectors.toList());
+
+            // PostDTO 생성
+            return PostDTO.builder()
+                    .content(post.getContent())
+                    .mediaUrls(mediaUrls) // 이미지 파일 URL 리스트 추가
+                    .writer(post.getNickname()) // 작성자 추가
+                    .build();
+        }).collect(Collectors.toList());
+
+        return postDTOList;  // 조회된 게시글 리스트 반환
     }
 }

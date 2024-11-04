@@ -22,6 +22,12 @@ configurations {
 
 }
 
+configurations.all {
+	resolutionStrategy {
+		force 'com.sun.mail:jakarta.mail:2.0.1'
+	}
+}
+
 repositories {
 	mavenCentral()
 }
@@ -80,6 +86,10 @@ dependencies {
 	// Redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 	implementation 'org.apache.commons:commons-pool2'
+
+	// Email Authentication
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'com.sun.mail:jakarta.mail:2.0.1'
 }
 
 tasks.named('test') {

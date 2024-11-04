@@ -4,7 +4,9 @@ import com.project.instagramclone.entity.token.RefreshTokenEntity;
 import com.project.instagramclone.repository.token.RefreshRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import java.util.concurrent.TimeUnit;
 
 import java.util.Date;
 
@@ -12,21 +14,19 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class RefreshTokenService {
 
-    private final RefreshRepository refreshRepository;
+//    private final RefreshRepository refreshRepository;
+    private final RedisTemplate<String, String> redisTemplate;
+    private final long REFRESH_TOKEN_EXPIRATION = 7 * 24 * 60 * 60; // 7일
 
-    @Transactional
-    public void saveRefreshToken(String username, Integer expireS, String refresh) {
-        RefreshTokenEntity refreshTokenEntity = RefreshTokenEntity.builder()
-                .username(username)
-                .refresh(refresh)
-                .expiration(new Date(System.currentTimeMillis() + expireS * 1000L).toString())
-                .build();
-
-        refreshRepository.save(refreshTokenEntity);
+    public void saveRefreshToken(String username, String refreshToken) {
+        redisTemplate.opsForValue().set(username, refreshToken, REFRESH_TOKEN_EXPIRATION, TimeUnit.SECONDS);
     }
 
-    public boolean existsByUsername(String username) {
-        return refreshRepository.existsAllByUsername(username);
+    public String getRefreshToken(String username) {
+        return redisTemplate.opsForValue().get(username);
     }
 
+    public void deleteRefreshToken(String username) {
+        redisTemplate.delete(username);
+    }
 }

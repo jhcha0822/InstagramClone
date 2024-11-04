@@ -67,6 +67,7 @@ const NavBar = () => {
                     <Link to="/">Home</Link>
                     {!isLoggedIn && <Link to="/join">Join</Link>}
                     {!isLoggedIn && <Link to="/login">Login</Link>}
+                    {!isLoggedIn && <Link to="/reset-password">Forgot Password?</Link>}
                     {isLoggedIn && <Link to="/logout">Logout</Link>}
                     {isLoggedIn && <Link to="/follow">Follow</Link>}
                     {isLoggedIn && <Link to="/post">Post</Link>}

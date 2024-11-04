@@ -19,6 +19,7 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
     MemberEntity findByOauthId(String oauthId);
     Optional<MemberEntity> findByUsername(String username);
     Optional<MemberEntity> findByNickname(String nickname);
+    Optional<MemberEntity> findByEmail(String email);
 
     List<MemberEntity> findByNicknameContainingIgnoreCase(String nickname);
 

@@ -40,15 +40,16 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         String nickname = customOAuth2User.getName();
         String role = authentication.getAuthorities().iterator().next().getAuthority();
 
-        Integer expireS = 24 * 60 * 60;
-        String access = jwtUtil.createJwt("access", username, nickname, role, 60 * 10 * 1000L);
-        String refresh = jwtUtil.createJwt("refresh", username, nickname, role, expireS * 1000L);
+        // Access 및 Refresh Token 생성
+        String accessToken = jwtUtil.generateToken("access", username, nickname, role);
+        String refreshToken = jwtUtil.generateToken("refresh", username, nickname, role);
+        response.setHeader("access", accessToken);
 
-        // refresh 토큰 DB 저장
-        refreshTokenService.saveRefreshToken(username, expireS, refresh);
+        // Redis에 Refresh Token 저장
+        refreshTokenService.saveRefreshToken(username, refreshToken);
 
-        response.addCookie(CookieUtil.createCookie("access", access, 60 * 10));
-        response.addCookie(CookieUtil.createCookie("refresh", refresh, expireS));
+        // 헤더 노출 설정
+        response.setHeader("Access-Control-Expose-Headers", "access");
 
         // redirect query param 인코딩 후 전달
         // 이후에 JWT 를 읽어서 데이터를 가져올 수도 있지만, JWT 파싱 비용이 많이 들기 때문에

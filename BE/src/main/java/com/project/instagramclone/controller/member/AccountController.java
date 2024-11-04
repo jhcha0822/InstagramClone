@@ -6,7 +6,9 @@ import com.project.instagramclone.dto.member.CustomUserDetails;
 import com.project.instagramclone.dto.member.SearchDto;
 import com.project.instagramclone.dto.oauth2.CustomOAuth2User;
 import com.project.instagramclone.entity.member.MemberEntity;
+import com.project.instagramclone.service.mail.MailService;
 import com.project.instagramclone.service.member.AccountService;
+import com.project.instagramclone.service.member.MemberService;
 import com.project.instagramclone.service.post.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,14 +17,18 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -31,6 +37,9 @@ import java.util.List;
 public class AccountController {
 
     private final AccountService accountService;
+    private final MemberService memberService;
+    private final MailService mailService;
+    private final RedisTemplate redisTemplate;
 
     // 사용자 정보 조회
     @GetMapping("/me")
@@ -85,6 +94,26 @@ public class AccountController {
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("현재 비밀번호가 일치하지 않습니다.");
         }
+    }
+
+    // 비밀번호 초기화를 위해 username을 전달
+    // username의 이메일로 보안 코드 전송
+    @PostMapping("/resetPasswordRequest")
+    public ResponseEntity<Map<String, String>> requestPasswordReset(@RequestBody Map<String, String> request) {
+        Map<String, String> response = new HashMap<>();
+        response.put("username", accountService.requestPasswordReset(request.get("username")));
+        response.put("email", memberService.getMemberByUsername(request.get("username")).getEmail());
+        return ResponseEntity.ok(response);
+    }
+
+    // 비밀번호 초기화
+    @PostMapping("/resetPassword")
+    public ResponseEntity<String> resetPassword(@RequestBody Map<String, String> request) {
+        String username = request.get("username");
+        String newPassword = request.get("password");
+        accountService.resetPassword(username, newPassword);
+        redisTemplate.delete(memberService.getMemberByUsername(username).getEmail()); // 보안 코드 삭제
+        return ResponseEntity.ok("Password updated successfully");
     }
 
     // memberId 추출

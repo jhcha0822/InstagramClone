@@ -5,12 +5,16 @@ import com.project.instagramclone.dto.member.PasswordChangeDto;
 import com.project.instagramclone.dto.member.SearchDto;
 import com.project.instagramclone.entity.member.MemberEntity;
 import com.project.instagramclone.repository.member.MemberRepository;
+import com.project.instagramclone.service.mail.MailService;
 import com.project.instagramclone.service.post.FileStorageService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -24,6 +28,7 @@ public class AccountService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final FileStorageService fileStorageService;
+    private final MailService mailService;
 
     // 사용자 정보 조회 로직
     public AccountUpdateDto getAccount(Long memberId) {
@@ -60,6 +65,26 @@ public class AccountService {
             return true;
         }
         return false;
+    }
+
+    // username을 통해 비밀번호 재설정에 필요한 보안 코드를 이메일로 전송
+    public String requestPasswordReset(String username) {
+        MemberEntity member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        String email = member.getEmail();
+        mailService.sendSecurityCode(email);
+
+        return "Password reset code sent to " + email;
+    }
+
+    // 비밀번호 초기화
+    public void resetPassword(String username, String newPassword) {
+        MemberEntity member = memberRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        member.setPassword(passwordEncoder.encode(newPassword));
+        memberRepository.save(member);
     }
 
     // 사용자 검색

@@ -32,6 +32,7 @@ public class JoinDto {
     @Size(min = 3, max = 50)
     private String email;
 
+
     public static JoinDto from(MemberEntity member) {
 
         if(member == null) return null;

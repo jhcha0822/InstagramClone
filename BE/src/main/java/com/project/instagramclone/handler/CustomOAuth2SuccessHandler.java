@@ -26,7 +26,6 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
-
     private final JWTUtil jwtUtil;
     private final RefreshTokenService refreshTokenService;
 

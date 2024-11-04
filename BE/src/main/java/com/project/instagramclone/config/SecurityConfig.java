@@ -32,8 +32,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 
 @EnableWebSecurity
@@ -115,7 +117,7 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration configuration = new CorsConfiguration();
-                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000/"));
                         configuration.setAllowedMethods(Collections.singletonList("*"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
@@ -138,6 +140,9 @@ public class SecurityConfig {
                                 "/api/v1/oauth2-jwt-header",
 
                                 "/set-nickname",
+                                "/api/v1/user/update",
+                                "/api/v1/user/change-password",
+                                "/ws/**",
                                 "/api/v1/user/me",
                                 "/api/v1/user/update",
                                 "/api/v1/user/change-password",

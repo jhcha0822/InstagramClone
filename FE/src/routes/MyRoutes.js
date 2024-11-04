@@ -10,12 +10,13 @@ import Post from '../pages/Post';
 import SetNickname from '../pages/SetNickname';
 import EditAccount from '../pages/EditAccount';
 import ChangePassword from '../pages/ChangePassword';
+import { useLogin } from '../contexts/AuthContext';
+import ChatRoomPage from '../pages/ChatRoomPage';
 import ResetPasswordRequest from '../pages/ResetPasswordRequest';
 import ResetPassword from '../pages/ResetPassword';
 import MyPosts from '../pages/MyPosts';
 import ProfilePage from '../pages/ProfilePage';
 import PostDetail from "../pages/PostDetail";
-import { useLogin } from '../contexts/AuthContext';
 
 const MyRoutes = () => {
   const { isLoggedIn } = useLogin();
@@ -31,6 +32,8 @@ const MyRoutes = () => {
 
       {isLoggedIn && <Route path="/edit-account" element={<EditAccount />} />}
       {isLoggedIn && <Route path="/change-password" element={<ChangePassword />} />}
+      {isLoggedIn && <Route path="/DMPage" element={<ChatRoomPage />} />}
+
       {/*{isLoggedIn && <Route path="/my-posts" element={<MyPosts />} />}*/}
 
       <Route path="/admin" element={<Admin />} />

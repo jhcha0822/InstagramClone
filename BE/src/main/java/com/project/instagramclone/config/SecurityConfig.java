@@ -142,6 +142,7 @@ public class SecurityConfig {
                                 "/set-nickname",
                                 "/api/v1/user/update",
                                 "/api/v1/user/change-password",
+                                "/ws/**",
 
                                 "/error"
                         ).permitAll() // 허용

@@ -11,6 +11,7 @@ import SetNickname from '../pages/SetNickname';
 import EditAccount from '../pages/EditAccount';
 import ChangePassword from '../pages/ChangePassword';
 import { useLogin } from '../contexts/AuthContext';
+import ChatRoomPage from '../pages/ChatRoomPage';
 
 const MyRoutes = () => {
   const { isLoggedIn } = useLogin();
@@ -25,6 +26,7 @@ const MyRoutes = () => {
       {isLoggedIn && <Route path="/post" element={<Post />} />}
       {isLoggedIn && <Route path="/edit-account" element={<EditAccount />} />}
       {isLoggedIn && <Route path="/change-password" element={<ChangePassword />} />}
+      {isLoggedIn && <Route path="/DMPage" element={<ChatRoomPage />} />}
       <Route path="/admin" element={<Admin />} />
       <Route path="/oauth2-jwt-header" element={<OAuth2Redirect />} />
       <Route path="/set-nickname" element={<SetNickname />} />

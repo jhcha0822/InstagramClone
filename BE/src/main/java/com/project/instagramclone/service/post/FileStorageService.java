@@ -21,7 +21,7 @@ public class FileStorageService {
     private final AmazonS3 amazonS3;
 
     // S3 버킷 이름 (application.yml에서 가져옴)
-    @Value("${spring.cloud.aws.s3.bucket}")
+    @Value("${spring.aws.s3.bucket}")
     private String bucketName;
 
     // 파일 저장 메서드 (S3에 업로드)

@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Member;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,7 +23,12 @@ public class MemberService {
     }
 
     public MemberEntity getMemberByUsername(String username) {
-        return memberRepository.findByUsername(username).get();
+        return memberRepository.findByUsername(username)
+                .orElseThrow(() -> new NoSuchElementException("사용자를 찾을 수 없습니다: " + username));
+    }
+
+    public Optional<MemberEntity> getMemberByNickname(String nickname) {
+        return memberRepository.findByNickname(nickname);
     }
 
     // nickname 업데이트 메서드

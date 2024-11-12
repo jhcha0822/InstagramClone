@@ -1,5 +1,5 @@
 # password 등 무시
-BE/src/main/resources/application.yml
+src/main/resources/application.yml
 
 # Created by https://www.toptal.com/developers/gitignore/api/java,intellij,gradle
 # Edit at https://www.toptal.com/developers/gitignore?templates=java,intellij,gradle

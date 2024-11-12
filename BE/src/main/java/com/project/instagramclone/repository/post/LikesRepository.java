@@ -7,8 +7,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LikesRepository extends MongoRepository<Likes, String> {
     //특정 게시글 좋아요 조회
-    boolean existsByPostIdAndNickname(String postId, String nickname);
+    boolean existsByPostIdAndMemberId(String postId, String memberId);
 
     //특정 게시글 좋아요 삭제 
-    void deleteByPostIdAndNickname(String postId, String nickname);
+    void deleteByPostIdAndMemberId(String postId, String memberId);
 }

@@ -37,4 +37,9 @@ public class MemberService {
         return memberRepository.updateNickname(currentNickname, newNickname);
     }
 
+    // nickname으로 memberId 조회
+    public long getMemberIdByNickname(String nickname) {
+        return memberRepository.findByNickname(nickname).get().getMemberId();
+    }
+
 }

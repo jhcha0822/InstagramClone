@@ -11,18 +11,18 @@ public class LikesService {
     private final LikesRepository likesRepository;
 
     //좋아요
-    public void addLike(String postId, String nickname) {
-        if (!likesRepository.existsByPostIdAndNickname(postId, nickname)) {
+    public void addLike(String postId, String memberId) {
+        if (!likesRepository.existsByPostIdAndMemberId(postId, memberId)) {
             Likes like = new Likes();
             like.setPostId(postId);
-            like.setNickname(nickname);
+            like.setMemberId(memberId);
             likesRepository.save(like);
         }
     }
 
     //좋아요 취소
-    public void removeLike(String postId, String userId) {
-        likesRepository.deleteByPostIdAndNickname(postId, userId);
+    public void removeLike(String postId, String memberId) {
+        likesRepository.deleteByPostIdAndMemberId(postId, memberId);
     }
 }
 

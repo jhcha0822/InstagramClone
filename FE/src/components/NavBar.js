@@ -73,6 +73,8 @@ const NavBar = () => {
                     {isLoggedIn && <Link to="/post">Post</Link>}
                     {isLoggedIn && <Link to="/edit-account">Account</Link>}
                     {isLoggedIn && <Link to="/change-password">Password</Link>}
+                    {isLoggedIn && <Link to="/favorites">Favorites</Link>}
+                    {isLoggedIn && <Link to="/DMPage">ChatRoom</Link>}
                     {/*{isLoggedIn && <Link to="/my-posts">My Post</Link>}*/}
                 </div>
 

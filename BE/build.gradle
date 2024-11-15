@@ -30,6 +30,7 @@ configurations.all {
 
 repositories {
 	mavenCentral()
+	jcenter()
 }
 
 dependencies {
@@ -94,6 +95,11 @@ dependencies {
 	// Email Authentication
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'com.sun.mail:jakarta.mail:2.0.1'
+
+	// MySQL
+
+	implementation 'mysql:mysql-connector-java:8.0.33'
+
 }
 
 tasks.named('test') {

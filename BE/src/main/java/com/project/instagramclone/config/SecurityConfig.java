@@ -160,7 +160,7 @@ public class SecurityConfig {
                                 "/error"
                         ).permitAll() // 허용
                         .requestMatchers(swaggerArray).permitAll() // swagger 페이지 접근 허용
-                        .requestMatchers(PathRequest.toH2Console()).permitAll() // H2콘솔 허용
+                        // .requestMatchers(PathRequest.toH2Console()).permitAll() // H2콘솔 허용
                         .requestMatchers("/api/v1/admin").hasRole("ADMIN")
                         // .requestMatchers("/api/oauth/google/login").permitAll() // 구글 로그인
                         .anyRequest().authenticated() // 나머지 요청에 대해서 인증 필요

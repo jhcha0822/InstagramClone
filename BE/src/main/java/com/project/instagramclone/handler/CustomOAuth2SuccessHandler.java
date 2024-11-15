@@ -8,6 +8,7 @@ import com.project.instagramclone.jwt.JWTUtil;
 import com.project.instagramclone.service.token.RefreshTokenService;
 import com.project.instagramclone.util.CookieUtil;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -32,9 +33,8 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
-        // create JWT
+        // 사용자 정보 가져오기
         CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-
         String username = customOAuth2User.getOauth2Id();
         String nickname = customOAuth2User.getName();
         String role = authentication.getAuthorities().iterator().next().getAuthority();
@@ -42,20 +42,19 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         // Access 및 Refresh Token 생성
         String accessToken = jwtUtil.generateToken("access", username, nickname, role);
         String refreshToken = jwtUtil.generateToken("refresh", username, nickname, role);
-        response.setHeader("access", accessToken);
 
         // Redis에 Refresh Token 저장
         refreshTokenService.saveRefreshToken(username, refreshToken);
 
-        // 헤더 노출 설정
-        response.setHeader("Access-Control-Expose-Headers", "access");
+        // Access Token을 httpOnly 쿠키에 저장 (선택 사항)
+        Cookie accessTokenCookie = CookieUtil.createCookie("access", accessToken, 60 * 15);
+        accessTokenCookie.setHttpOnly(true);
+        response.addCookie(accessTokenCookie);
 
-        // redirect query param 인코딩 후 전달
-        // 이후에 JWT 를 읽어서 데이터를 가져올 수도 있지만, JWT 파싱 비용이 많이 들기 때문에
-        // 처음 JWT 발급할 때 이름을 함께 넘긴 후, 로컬 스토리지에 저장한다.
-        String encodedName = URLEncoder.encode(nickname, "UTF-8");
+        // 리다이렉트 URL 생성
+        String redirectUrl = "http://localhost:3000/oauth2-jwt-header?accessToken=" + URLEncoder.encode(accessToken, "UTF-8") +
+                "&nickname=" + URLEncoder.encode(nickname, "UTF-8");
 
-        response.sendRedirect("http://localhost:3000/oauth2-jwt-header?nickname=" + encodedName);
+        response.sendRedirect(redirectUrl);
     }
-
 }

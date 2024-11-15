@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 const PostDetail = () => {
     const { postId } = useParams();
     const [post, setPost] = useState(null);
+    const [isLiked, setIsLiked] = useState(false);
+    const [isFavorited, setIsFavorited] = useState(false);
 
     useEffect(() => {
         fetchPost();
@@ -22,11 +24,59 @@ const PostDetail = () => {
             if (response.ok) {
                 const data = await response.json();
                 setPost(data);
+                setIsLiked(data.liked); // API에서 좋아요 여부 받아오기
+                setIsFavorited(data.favorited); // API에서 즐겨찾기 여부 받아오기
             } else {
                 alert('게시물을 불러오는 데 실패했습니다.');
             }
         } catch (error) {
             console.error('게시물 불러오기 중 오류:', error);
+        }
+    };
+
+    const handleLike = async () => {
+        const token = window.localStorage.getItem("access");
+        const url = `http://localhost:8080/api/v1/likes/${postId}`;
+        const method = isLiked ? 'DELETE' : 'POST';
+
+        try {
+            const response = await fetch(url, {
+                method,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.ok) {
+                setIsLiked(!isLiked);
+            } else {
+                alert('좋아요 요청에 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('좋아요 요청 중 오류:', error);
+        }
+    };
+
+    const handleFavorite = async () => {
+        const token = window.localStorage.getItem("access");
+        const url = `http://localhost:8080/api/v1/favorites/${postId}`;
+        const method = isFavorited ? 'DELETE' : 'POST';
+
+        try {
+            const response = await fetch(url, {
+                method,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.ok) {
+                setIsFavorited(!isFavorited);
+            } else {
+                alert('즐겨찾기 요청에 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('즐겨찾기 요청 중 오류:', error);
         }
     };
 
@@ -44,8 +94,19 @@ const PostDetail = () => {
                         <p>이미지를 불러올 수 없습니다.</p>
                     )}
                     <p>{post.content}</p>
+
                     {/* Unix timestamp를 적절히 변환하여 날짜를 표시 */}
                     <span>작성일: {post.regdate ? new Date(post.regdate).toLocaleString() : '날짜 정보 없음'}</span>
+
+                    {/* 좋아요 및 즐겨찾기 버튼 */}
+                    <div className="actions">
+                        <button onClick={handleLike}>
+                            {isLiked ? '좋아요 취소' : '좋아요'}
+                        </button>
+                        <button onClick={handleFavorite}>
+                            {isFavorited ? '즐겨찾기 취소' : '즐겨찾기'}
+                        </button>
+                    </div>
                 </>
             ) : (
                 <p>게시물을 불러오는 중입니다...</p>

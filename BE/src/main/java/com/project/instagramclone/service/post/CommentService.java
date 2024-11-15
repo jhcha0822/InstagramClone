@@ -42,33 +42,35 @@ public class CommentService {
         replyComment.setNickname(commentDTO.getNickname());
         replyComment.setComment(commentDTO.getComment());
         replyComment.setRegdate(Instant.now().getEpochSecond());
-        replyComment.setChildren(new ArrayList<>());
+        replyComment.setChildren(new ArrayList<>());  // 대댓글의 children 필드는 빈 리스트로 초기화
 
-        //대댓글 저장
+        // 대댓글 저장
         replyComment = commentRepository.save(replyComment); // ID가 생성된 대댓글을 저장
 
-        // 부모 댓글에 자식 댓글(대댓글) 추가
-        parentComment.getChildren().add(replyComment.getId());
+        // 부모 댓글에 자식 댓글(대댓글) 추가 (ID가 아니라, 댓글 객체를 추가)
+        parentComment.getChildren().add(replyComment);  // replyComment 객체 자체를 추가
+
+        // 부모 댓글 업데이트
         commentRepository.save(parentComment);
 
         return replyComment;
     }
 
+
+
+
     // 게시글별 댓글 조회 (댓글 + 대댓글 포함)
     public List<Comments> getCommentsForPost(String postId) {
-        List<Comments> comments = commentRepository.findByPostId(postId);
+        // 부모 댓글만 조회
+        List<Comments> parentComments = commentRepository.findByPostIdAndParentCommentIdIsNull(postId);
 
-        // 각 댓글의 대댓글도 가져오기
-        for (Comments comment : comments) {
-            if (comment.getChildren() != null && !comment.getChildren().isEmpty()) {
-                List<Comments> replies = commentRepository.findByParentCommentId(comment.getId());
-                comment.setChildren(new ArrayList<>());
-                for (Comments reply : replies) {
-                    comment.getChildren().add(reply.getId());
-                }
-            }
+        // 각 부모 댓글에 대해 대댓글을 조회하고 추가
+        for (Comments parentComment : parentComments) {
+            List<Comments> replies = commentRepository.findByParentCommentId(parentComment.getId());
+            parentComment.setChildren(replies);  // 대댓글 리스트를 children에 저장
         }
 
-        return comments;
+        return parentComments;  // 부모 댓글 목록만 반환 (대댓글은 children 필드에 포함됨)
     }
+
 }

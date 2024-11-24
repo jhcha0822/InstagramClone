@@ -97,8 +97,11 @@ dependencies {
 	implementation 'com.sun.mail:jakarta.mail:2.0.1'
 
 	// MySQL
-
 	implementation 'mysql:mysql-connector-java:8.0.33'
+
+	// AWS SQS
+	implementation 'software.amazon.awssdk:sqs:2.20.0' // 최신 버전 확인 후 변경
+	implementation 'software.amazon.awssdk:core:2.20.0'
 
 }
 

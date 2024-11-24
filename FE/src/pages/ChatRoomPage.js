@@ -10,13 +10,13 @@ const ChatRoomPage = () => {
     const [currentRoomId, setCurrentRoomId] = useState(null);
     const [error, setError] = useState('');
     const [stompClient, setStompClient] = useState(null);
-    
+
     const accessToken = localStorage.getItem('access');
 
     useEffect(() => {
         const fetchChatRooms = async () => {
             try {
-                const response = await axios.get('http://localhost:8080/api/chat/rooms', {
+                const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/chat/rooms`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
@@ -33,7 +33,7 @@ const ChatRoomPage = () => {
     const createChatRoom = async () => {
         if (nickname) {
             try {
-                const response = await axios.post('http://localhost:8080/api/chat/rooms', [nickname], {
+                const response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}/api/chat/rooms`, [nickname], {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
@@ -77,7 +77,7 @@ const ChatRoomPage = () => {
 
     const fetchMessages = async (roomId) => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/messages/${roomId}`, {
+            const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/messages/${roomId}`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -90,7 +90,7 @@ const ChatRoomPage = () => {
                 stompClient.disconnect(); // 기존 연결 해제
             }
 
-            const socket = new SockJS('http://localhost:8080/ws');
+            const socket = new SockJS(`${process.env.REACT_APP_API_BASE_URL}/ws`);
             const client = Stomp.over(socket);
             setStompClient(client); // stompClient 상태 업데이트
         } catch (err) {

@@ -14,7 +14,7 @@ const PostDetail = () => {
     const fetchPost = async () => {
         try {
             const token = window.localStorage.getItem("access");
-            const response = await fetch(`http://localhost:8080/api/v1/post/${postId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/post/${postId}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`, // Authorization 헤더 추가
@@ -36,7 +36,7 @@ const PostDetail = () => {
 
     const handleLike = async () => {
         const token = window.localStorage.getItem("access");
-        const url = `http://localhost:8080/api/v1/likes/${postId}`;
+        const url = `${process.env.REACT_APP_API_BASE_URL}/api/v1/likes/${postId}`;
         const method = isLiked ? 'DELETE' : 'POST';
 
         try {
@@ -59,7 +59,7 @@ const PostDetail = () => {
 
     const handleFavorite = async () => {
         const token = window.localStorage.getItem("access");
-        const url = `http://localhost:8080/api/v1/favorites/${postId}`;
+        const url = `${process.env.REACT_APP_API_BASE_URL}/api/v1/favorites/${postId}`;
         const method = isFavorited ? 'DELETE' : 'POST';
 
         try {

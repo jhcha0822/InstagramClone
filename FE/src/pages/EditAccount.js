@@ -11,7 +11,7 @@ const EditAccount = () => {
     useEffect(() => {
         // 기본 사용자 정보를 로딩 (예: API를 통해 가져옴)
         const token = window.localStorage.getItem("access");
-        fetch("http://localhost:8080/api/v1/user/me", {
+        fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/user/me`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -50,7 +50,7 @@ const EditAccount = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:8080/api/v1/user/update", {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/user/update`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

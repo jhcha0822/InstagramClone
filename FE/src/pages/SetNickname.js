@@ -12,7 +12,7 @@ const SetNickname = () => {
         try {
             const token = window.localStorage.getItem("access");
             const currentNickname = window.localStorage.getItem("nickname"); // 현재 닉네임 가져오기
-            const response = await fetch("http://localhost:8080/api/v1/nickname/set", {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/nickname/set`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -25,7 +25,7 @@ const SetNickname = () => {
                 alert("닉네임이 변경되었습니다. 다시 로그인해주세요.");
 
                 // 로그아웃 처리 (Logout.js에서 사용된 로직)
-                const logoutResponse = await fetch("http://localhost:8080/logout", {
+                const logoutResponse = await fetch(`${process.env.REACT_APP_API_BASE_URL}/logout`, {
                     method: "POST",
                     credentials: "include",
                 });

@@ -30,7 +30,7 @@ const Follow = () => {
                 alert("로그인이 필요합니다.");
                 return;
             }
-            const response = await fetch(`http://localhost:8080/api/v1/${nickname}/followers`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/${nickname}/followers`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -55,7 +55,7 @@ const Follow = () => {
                 alert("로그인이 필요합니다.");
                 return;
             }
-            const response = await fetch(`http://localhost:8080/api/v1/${nickname}/following`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/${nickname}/following`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -88,7 +88,7 @@ const Follow = () => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/api/v1/${nickname}/follow/${memberNickname}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/${nickname}/follow/${memberNickname}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -118,7 +118,7 @@ const Follow = () => {
                 return;
             }
 
-            const response = await fetch(`http://localhost:8080/api/v1/${nickname}/unfollow/${memberNickname}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/${nickname}/unfollow/${memberNickname}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

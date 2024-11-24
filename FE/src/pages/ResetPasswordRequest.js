@@ -11,7 +11,7 @@ const ResetPasswordRequest = () => {
 
     const handleSendCode = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/v1/user/resetPasswordRequest", {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/user/resetPasswordRequest`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ const ResetPasswordRequest = () => {
             params.append("email", email);
             params.append("code", securityCode);
 
-            const response = await fetch("http://localhost:8080/api/v1/verifySecurityCode", {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/verifySecurityCode`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'

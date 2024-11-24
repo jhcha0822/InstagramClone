@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Message {
+public class MessageEntity {
     @Id
     private String id;
     private String roomId; // DMRoom의 ID
@@ -20,7 +20,7 @@ public class Message {
     private String content;
     private LocalDateTime timestamp;
 
-    public Message(String roomId, String sender, String content, LocalDateTime timestamp) {
+    public MessageEntity(String roomId, String sender, String content, LocalDateTime timestamp) {
         this.roomId = roomId;
         this.sender = sender;
         this.content = content;

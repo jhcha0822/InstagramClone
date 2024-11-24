@@ -12,7 +12,7 @@ const JoinForm = () => {
     const [code, setCode] = useState(''); // 보안 코드 입력 필드
 
     const sendSecurityCode = async () => {
-        await fetch(`http://localhost:8080/api/v1/sendSecurityCode?email=${email}`, {
+        await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/sendSecurityCode?email=${email}`, {
             method: "POST",
         });
         alert("입력한 이메일로 보안코드가 전송되었습니다.");
@@ -20,7 +20,7 @@ const JoinForm = () => {
 
     const fetchJoin = async (credentials) => {
         try {
-            const response = await fetch(`http://localhost:8080/api/v1/join?code=${code}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/join?code=${code}`, {
                 method: "POST",
                 credentials: 'include',
                 headers: {
@@ -43,7 +43,7 @@ const JoinForm = () => {
 
     const joinHandler = async (e) => {
         e.preventDefault();
-        const response = await fetch(`http://localhost:8080/api/v1/verifySecurityCode?username=${username}&email=${email}&code=${code}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/verifySecurityCode?username=${username}&email=${email}&code=${code}`, {
             method: "POST",
         });
 

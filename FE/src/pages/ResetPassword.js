@@ -12,7 +12,7 @@ const ResetPassword = () => {
 
     const handleSendCode = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/v1/user/resetPasswordRequest", {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/user/resetPasswordRequest`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ const ResetPassword = () => {
 
     const handleVerifyCode = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/v1/verifySecurityCode", {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/verifySecurityCode`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -64,7 +64,7 @@ const ResetPassword = () => {
         }
 
         try {
-            const response = await fetch("http://localhost:8080/api/v1/user/resetPassword", {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/user/resetPassword`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

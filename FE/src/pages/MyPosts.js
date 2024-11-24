@@ -10,7 +10,7 @@ const MyPosts = () => {
     const fetchMyPosts = async () => {
         try {
             const token = localStorage.getItem('access');
-            const response = await fetch('http://localhost:8080/api/v1/users/me/posts', {
+            const response = await fetch('${process.env.REACT_APP_API_BASE_URL}/api/v1/users/me/posts', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -35,7 +35,7 @@ const MyPosts = () => {
                     <div key={index} className="post">
                         <p>{post.content}</p>
                         {post.mediaUrls && post.mediaUrls.map((url, idx) => (
-                            <img key={idx} src={`http://localhost:8080/images/${url}`} alt={`media-${idx}`} />
+                            <img key={idx} src={`${process.env.REACT_APP_API_BASE_URL}/images/${url}`} alt={`media-${idx}`} />
                         ))}
                         <p>작성일: {post.createdAt}</p>
                     </div>

@@ -13,7 +13,7 @@ const FavoritesPage = () => {
     const fetchFavoritePosts = async () => {
         try {
             const token = localStorage.getItem('access');
-            const response = await fetch('http://localhost:8080/api/v1/favorites', {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/favorites`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

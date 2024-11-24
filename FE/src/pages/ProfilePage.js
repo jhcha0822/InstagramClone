@@ -23,7 +23,7 @@ const ProfilePage = () => {
     const fetchProfile = async () => {
         try {
             const token = window.localStorage.getItem("access");
-            const response = await fetch(`http://localhost:8080/api/v1/${nickname}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/${nickname}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -44,7 +44,7 @@ const ProfilePage = () => {
     const checkIfFollowing = async () => {
         // 팔로우 여부를 체크하는 로직
         const token = window.localStorage.getItem('access');
-        const response = await fetch(`http://localhost:8080/api/v1/${loginUser}/following/${nickname}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/${loginUser}/following/${nickname}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,

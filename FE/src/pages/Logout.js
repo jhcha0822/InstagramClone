@@ -9,7 +9,7 @@ const Logout = () => {
             const accessToken = window.localStorage.getItem("access"); // Access Token 가져오기
 
             // 로그아웃 요청 시 백엔드에서 refresh token 블랙리스트 처리 (혹은 refresh 토큰 DB 에서 삭제)
-            const response = await fetch("http://localhost:8080/logout", {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/logout`, {
                 method: "POST",
                 // credentials: "include", // 쿠키 전달
                 headers: {

@@ -29,7 +29,7 @@ const Home = () => {
     const handleCommentSubmit = async (postId) => {
         const token = localStorage.getItem('access');
         try {
-            const response = await fetch(`http://localhost:8080/api/v1/comment/${postId}?comment=${commentInputs[postId]}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/comment/${postId}?comment=${commentInputs[postId]}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -52,7 +52,7 @@ const Home = () => {
     const handleReplySubmit = async (postId, parentCommentId) => {
         const token = localStorage.getItem('access');
         try {
-            const response = await fetch(`http://localhost:8080/api/v1/reply/${postId}?reply=${replyInputs[parentCommentId]}&parentCommentId=${parentCommentId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/reply/${postId}?reply=${replyInputs[parentCommentId]}&parentCommentId=${parentCommentId}`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -76,7 +76,7 @@ const Home = () => {
     const fetchComments = async (postId) => {
         const token = localStorage.getItem('access');
         try {
-            const response = await fetch(`http://localhost:8080/api/v1/comments/${postId}`, {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/comments/${postId}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }
@@ -99,7 +99,7 @@ const Home = () => {
     const fetchPosts = async () => {
         try {
             const token = localStorage.getItem('access');
-            const response = await fetch('http://localhost:8080/api/v1/posts', {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/posts`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`,

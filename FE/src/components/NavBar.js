@@ -29,7 +29,7 @@ const NavBar = () => {
             if (searchNickname.trim() !== '') {
                 const token = window.localStorage.getItem('access'); // 저장된 access 토큰 가져오기
                 try {
-                    const response = await axios.get('http://localhost:8080/api/v1/user/search', {
+                    const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}/api/v1/user/search`, {
                         params: { query: searchNickname },
                         headers: {
                             'Authorization': `Bearer ${token}`, // 헤더에 토큰 추가

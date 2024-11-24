@@ -12,6 +12,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
@@ -27,6 +28,9 @@ import java.util.Map;
  */
 @RequiredArgsConstructor
 public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    @Value("${React.API.URL}") private String ReactAPIUrl;
+
     private final JWTUtil jwtUtil;
     private final RefreshTokenService refreshTokenService;
 
@@ -52,7 +56,7 @@ public class CustomOAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHa
         response.addCookie(accessTokenCookie);
 
         // 리다이렉트 URL 생성
-        String redirectUrl = "http://localhost:3000/oauth2-jwt-header?accessToken=" + URLEncoder.encode(accessToken, "UTF-8") +
+        String redirectUrl = ReactAPIUrl + "/oauth2-jwt-header?accessToken=" + URLEncoder.encode(accessToken, "UTF-8") +
                 "&nickname=" + URLEncoder.encode(nickname, "UTF-8");
 
         response.sendRedirect(redirectUrl);

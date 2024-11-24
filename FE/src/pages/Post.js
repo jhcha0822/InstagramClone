@@ -40,7 +40,7 @@ const CreatePost = () => {
         mediaFiles.forEach((file) => formData.append('mediaFiles', file)); // 파일 추가
 
         try {
-            const response = await fetch("http://localhost:8080/api/v1/create/posts", {
+            const response = await fetch(`${process.env.REACT_APP_API_BASE_URL}/api/v1/create/posts`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`, // JWT 인증 헤더 추가

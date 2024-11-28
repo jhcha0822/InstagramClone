@@ -61,6 +61,28 @@ Designing, Debugging, Supervising
 
 ### 시연 이미지/영상
 
+회원가입  
+![join](https://github.com/user-attachments/assets/87c25568-e9db-42be-8158-116ff7cf02f6)
+
+로그인(ID/PW 방식)  
+![login_form](https://github.com/user-attachments/assets/1762c81f-cc4a-4370-9c6c-38bd1cbe73cb)
+
+팔로우  
+![follow](https://github.com/user-attachments/assets/22385142-08c0-4ce8-ad4c-5f9755d0448f)
+
+댓글/대댓글  
+![reply](https://github.com/user-attachments/assets/7bb5461c-cd74-403e-b6cf-0b89b7222569)
+
+게시글 작성, 프로필 페이지  
+![post_profile](https://github.com/user-attachments/assets/f478d7e0-1108-4c45-baf5-72ab8a8e203b)
+
+즐겨찾기, 좋아요  
+![favorites](https://github.com/user-attachments/assets/f7de032f-1153-488a-a333-1fe797e22c55)
+
+DM(채팅)  
+![DM](https://github.com/user-attachments/assets/2a5b8961-ac82-49c1-ab5e-4542c000541d)
+
+
 ***
 
 ## 기술 스택
@@ -100,6 +122,13 @@ Designing, Debugging, Supervising
 ## 프로젝트 구조
 
 ### 디렉토리 구조
+
+### API 구성
+
+[Swagger API Documentation](http://3.37.125.32:8080/swagger-ui/index.html#/): 닫힌 상태
+
+![swagger](https://github.com/user-attachments/assets/b2f9a437-e36d-4cd1-8703-9413dfb84cc1)
+
 
 ***
 

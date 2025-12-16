@@ -30,7 +30,7 @@ spring:
 
 # Amazon RDS MySQL8
   datasource:
-    url: jdbc:mysql://instagram-db-mysql.cjw80syiuqd2.ap-northeast-2.rds.amazonaws.com:3306/instagram_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
+    url: 
     username: 
     password: 
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -53,7 +53,7 @@ spring:
             client-name: google
             client-id: 
             client-secret: 
-            redirect-uri: http://3.37.125.32/login/oauth2/code/google
+            redirect-uri: 
             authorization-grant-type: authorization_code
             scope:
               - profile
@@ -63,12 +63,12 @@ spring:
     header: Authorization
     #HS512
     #echo 'instagram-clone-project-spring-boot-jwt-secret-instagram-clone-project-spring-boot-jwt-secret'|base64
-    secret: aW5zdGFncmFtLWNsb25lLXByb2plY3Qtc3ByaW5nLWJvb3Qtand0LXNlY3JldC1pbnN0YWdyYW0tY2xvbmUtcHJvamVjdC1zcHJpbmctYm9vdC1qd3Qtc2VjcmV0
+    secret: 
     token-validity-in-seconds: 86400
 
   mail:
     host: smtp.gmail.com
-    port: 587
+    port: 
     username: 
     password: 
     properties:
@@ -91,11 +91,11 @@ spring:
   data:
     # MongoDB Atlas Cluster
     mongodb:
-      # uri: mongodb+srv://<username>:<password>@<cluster-endpoint>/<database>?retryWrites=true&w=majority
-      uri: mongodb+srv://admin:0Q87ixEsrogcbNVN@instagram-db-mongo.yrfir.mongodb.net/post?retryWrites=true&w=majority&appName=instagram-db-mongo
+      # uri: mongodb+srv://<username>:<password>@<cluster-endpoint>/<database>?
+      uri: mongodb+srv:/
     # Amazon ElastiCache Redis OSS
     redis:
-      host: instagram-cache-redis.70tqxh.ng.0001.apn2.cache.amazonaws.com
+      host:
       port: 6379
       # password: # Redis Auth 설정 시
       # timeout: 6000ms
@@ -132,8 +132,8 @@ spring:
         static: ap-northeast-2
 
   rabbitmq:
-    host: http://3.37.125.32/
-    port: 5672 # AMQP 포트
+    host: 
+    port: # AMQP 포트
     username: admin
     password: admin
 
@@ -142,7 +142,7 @@ spring:
       broker:
         relay:
           host: localhost
-          port: 61613 # STOMP 포트
+          port:  # STOMP 포트
           username: guest
           password: guest
 
@@ -189,9 +189,9 @@ springdoc:
 
 React:
   API:
-    URL: http://3.37.125.32
-
+    URL: 
 #aws:
 #  sqs:
 #    queue:
+
 #      url: https://sqs.ap-northeast-2.amazonaws.com/390402569841/DMMessageQueue
